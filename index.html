@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+        <script src = "https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+        <script src = "https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+        <script src ="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+        <script src="bullet.js"></script>
+        <script src="gameObjects.js"></script>
+        <script src="playerMovement.js"></script>
+        <script src = "enemy.js"></script>
+    </head>
+    <body>
+
+        <a-scene id = "scene" inspector-plugin-recast>
+            <a-assets>
+                <a-asset-item id = "shooter" src = "./models/shooter/gun.gltf"></a-asset-item>
+                <audio id = "shoot-sound" src = "./sounds/shoot.mp3"></audio>
+                <audio id = "footstep" src = "./sounds/footStep.mp3"></audio>
+                <a-asset-item id = "mesh" src = "./models/navmesh.gltf"></a-asset-item>
+                <a-asset-item id = "enemy" src = "./models/tank/scene.gltf"></a-asset-item>
+            </a-assets>
+            <a-entity id = "sound-1" sound = "src:#shoot-sound;loop:false;volume:100"></a-entity>
+            <a-entity id = "sound-2" sound = "src:#footstep;loop:false;volume:50"></a-entity>
+
+            <a-entity id ="camera" position="0 4.5 0" camera wasd-controls look-controls = "pointerLockEnabled:false">
+            <a-entity id ="weapon" gltf-model="#shooter" position="0 -4.4 3" rotation="0 180 0" scale = "0.2 1 1" movement></a-entity>
+                <a-cursor></a-cursor>
+            </a-entity>
+
+            <a-entity wirefence boxes></a-entity>
+
+            <!--Enemy-->
+            <a-entity id = "enemy-1" rotation="0 90 0 " gltf-model="#enemy" position="-10 0 -15" scale = "0.02 0.02 0.02" static-body animation-mixer animation="property: position; to: 10 0 -15; dur: 20000; easing: linear; loop: true; dir:alternate" class = "enemyClass"></a-entity>
+            <a-entity id = "enemy-2" rotation="0 90 0 " gltf-model="#enemy" position="-10 0 30" scale = "0.02 0.02 0.02" static-body animation-mixer animation="property: position; to: 10 0 -15; dur: 20000; easing: linear; loop: true; dir:alternate" class = "enemyClass"></a-entity>
+  
+            <!--Environment-->
+
+            <a-entity id = "environment" environment = "preset:egypt;skyType:gradient"></a-entity>
+
+
+            <!-- Ground -->
+            <a-plane id = "ground" static-body depth="2" height="200" width="200" color = "green" position="0 -1 0" rotation="-90 0 0"></a-plane>
+
+            <a-entity id = "nav-mesh" gltf-model="#mesh" visible="false" nav-mesh></a-entity>
+
+            <!--ENEMYBULLETS-->
+            <a-entity id = "enemybullet" enemy-bullets></a-entity>
+
+            <!--BULLETS-->
+            <a-entity id = "bullet" bullets></a-entity>
+        </a-scene>
+
+    </body>
+</html>
